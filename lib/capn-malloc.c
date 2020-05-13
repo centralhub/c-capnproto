@@ -273,6 +273,26 @@ static int capn_write_mem_packed(struct capn *c, uint8_t *p, size_t sz)
 	return sz - z.avail_out;
 }
 
+size_t
+capn_unpacked_serialized_size(struct capn *c)
+{
+	size_t result = 0;
+	size_t headersz = 0;
+	uint32_t headerlen = 0;
+	struct capn_segment *seg;
+	
+	if (c->segnum == 0)
+		return 0;
+
+	header_calc(c, &headerlen, &headersz);
+	result += headersz;
+	
+	for(seg = c->seglist; seg; seg = seg->next) {
+		result += seg->len;
+	}
+	return result;
+}
+
 int
 capn_write_mem(struct capn *c, uint8_t *p, size_t sz, int packed)
 {

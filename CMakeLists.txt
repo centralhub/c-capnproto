@@ -24,3 +24,8 @@ install(FILES
     lib/capnp_c.h
     TYPE INCLUDE
 )
+install(FILES
+    compiler/c.capnp
+    compiler/c.capnp.h
+    DESTINATION include/capnp
+)
